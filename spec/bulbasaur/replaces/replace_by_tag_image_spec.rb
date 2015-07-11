@@ -26,15 +26,30 @@ RSpec.describe Bulbasaur::ReplaceByTagImage do
     context "When there are many img tags" do
 
       let(:html) do
-        "<p>Lorem inpsu</p><img src='test.jpg' alt='hello' />"
+        "<p>Lorem inpsu</p>
+        <img src='test-0.jpg' alt='hello'>
+        <img src='test-1.jpg' alt='hello'>
+        <img src='test-1.jpg' alt='hello'>
+        <img src='test-3.jpg' alt='hello'>
+        <img src='test-2.jpg' alt='hello'>".gsub(/\n/," ")
       end
 
       let(:image_replaces) do
-        [{original_image_url:"test.jpg", url: "new-image.png"}]
+        [
+         {original_image_url:"test-0.jpg", url: "new-image-0.png"}, 
+         {original_image_url:"test-1.jpg", url: "new-image-1.png"},
+         {original_image_url:"test-2.jpg", url: "new-image-2.png"}
+        ]
       end
 
       it "Does return html parsed" do
-        expect(subject).to eq "<p>Lorem inpsu</p><img src=\"new-image.png\" alt=\"hello\">"
+        expect(subject).to eq(
+        '<p>Lorem inpsu</p>
+        <img src="new-image-0.png" alt="hello">
+        <img src="new-image-1.png" alt="hello">
+        <img src="new-image-1.png" alt="hello">
+        <img src="test-3.jpg" alt="hello">
+        <img src="new-image-2.png" alt="hello">'.gsub(/\n/," "))
       end
     end
 
