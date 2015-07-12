@@ -10,23 +10,23 @@ Bulbasuar is a helper gem used by Preadly on crawler operations, the objective i
 
 Add this line to your application's Gemfile:
 
-``ruby
+```ruby
 gem 'bulbasaur'
-``
+```
 
 Or to get the latest updates:
 
-``ruby
+```ruby
 gem 'bulbasaur', github: 'preadly/bulbasaur', branch: 'master'
-``
+```
 
 And then execute:
 
-    $ bundle
+	$ bundle
     
-    Or install it yourself as:
+Or install it yourself as:
     
-        $ gem install bulbasaur
+	$ gem install bulbasaur
 
 ## Contributing
 
