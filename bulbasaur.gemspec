@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "bulbasaur"
-  spec.version       = "0.1"
+  spec.version       = Bulbasaur::VERSION
   spec.authors       = ["Magno Costa"]
   spec.email         = ["magnocosta.br@gmail.com"]
   spec.description = spec.summary = %q(Bulbasaur is a helper for crawler operations used in Pread.ly)
