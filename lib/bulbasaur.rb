@@ -6,6 +6,8 @@ require "bulbasaur/extracts/extract_images_from_all_resources"
 require "bulbasaur/extract_text_from_html.rb"
 require "bulbasaur/replaces/replace_by_tag_image"
 require "bulbasaur/utils/normalize_url"
+require "bulbasaur/version"
+
 
 module Bulbasaur
 
