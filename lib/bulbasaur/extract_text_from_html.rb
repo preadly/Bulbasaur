@@ -1,7 +1,14 @@
-module Operations::ExtractTextFromHtml
-  require "nokogiri"
+module Bulbasaur
+  
+  class ExtractInnerTextFromHTML
 
-  def self.call(html)
-    Nokogiri::HTML(html).inner_text.to_s
+    def initialize(html)
+      @html = html
+    end
+
+    def call
+      Nokogiri::HTML(@html).inner_text.to_s
+    end
+
   end
 end
