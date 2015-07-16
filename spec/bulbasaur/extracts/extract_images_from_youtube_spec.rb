@@ -6,6 +6,10 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
     described_class.new(html).call
   end
 
+  before do
+    stub_request(:get, /\.youtube\.com/).to_return(status: 200)
+  end
+
   describe "#call" do
     
     context "When there is not youtube images" do
@@ -32,10 +36,6 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
       it "Does return youtube url" do
         expect(subject.first[:url]).to eq "http://img.youtube.com/vi/123idfake321/maxresdefault.jpg"
       end
-      
-      it "Does return youtube url fallback" do
-        expect(subject.first[:url_fallback]).to eq "http://img.youtube.com/vi/123idfake321/0.jpg"
-      end
     end
 
     context "When has on youtube video with path 'v'" do
@@ -50,10 +50,6 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
 
       it "Does return youtube url" do
         expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-1/maxresdefault.jpg"
-      end
-      
-      it "Does return youtube url fallback" do
-        expect(subject.first[:url_fallback]).to eq "http://img.youtube.com/vi/video-1/0.jpg"
       end
     end
 
@@ -70,9 +66,20 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
       it "Does return youtube url" do
         expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-6/maxresdefault.jpg"
       end
-      
-      it "Does return youtube url fallback" do
-        expect(subject.first[:url_fallback]).to eq "http://img.youtube.com/vi/video-6/0.jpg"
+    end
+
+    context "When image max resolution not exists" do
+
+      let(:html) do
+          %Q(<iframe width="560" height="315" src="https://www.youtube-nocookie.com/v/video-fail-6" frameborder="0" allowfullscreen></iframe>)
+      end
+
+      before do
+        stub_request(:get, "http://img.youtube.com/vi/video-fail-6/maxresdefault.jpg").to_return(status: 404)
+      end
+
+      it "Does return image fallback url" do
+        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-fail-6/0.jpg"
       end
     end
     
@@ -105,17 +112,6 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
           "http://img.youtube.com/vi/video-4/maxresdefault.jpg", 
           "http://img.youtube.com/vi/video-4/maxresdefault.jpg", 
           "http://img.youtube.com/vi/video-6/maxresdefault.jpg")
-      end
-      
-      it "Does return youtube urls fallback" do
-        expect(subject.map{ |video| video[:url_fallback] }).to include(
-          "http://img.youtube.com/vi/video0/0.jpg",  
-          "http://img.youtube.com/vi/video1/0.jpg",  
-          "http://img.youtube.com/vi/video2/0.jpg", 
-          "http://img.youtube.com/vi/video3/0.jpg", 
-          "http://img.youtube.com/vi/video-4/0.jpg", 
-          "http://img.youtube.com/vi/video-4/0.jpg", 
-          "http://img.youtube.com/vi/video-6/0.jpg")
       end
     end
   end
