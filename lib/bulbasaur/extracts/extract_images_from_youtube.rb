@@ -2,8 +2,8 @@ module Bulbasaur
 
   class ExtractImagesFromYoutube
   
-    EXTRACT_URL_PATTERN = /www\.youtube\.com\/(?:v\/|.+?&v=|embed\/)\w+/i
-    EXTRACT_VID_PATTERN = /(?<=v\/|embed\/)(?<vid>\w+)/i
+    EXTRACT_URL_PATTERN = /www\.youtube(?:-nocookie)?\.com\/(?:v|embed)\/[a-zA-Z0-9-]+/i
+    EXTRACT_VID_PATTERN = /(?<=v|embed)\/(?<vid>[a-zA-Z0-9-]+)/i
 
     def initialize(html)
       @html = html

@@ -33,6 +33,36 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
         expect(subject.first[:url]).to eq "http://img.youtube.com/vi/123idfake321/0.jpg"
       end
     end
+
+    context "When has on youtube video with path 'v'" do
+
+      let(:html) do
+          %Q(<iframe width="560" height="315" src="https://www.youtube-nocookie.com/v/video-1" frameborder="0" allowfullscreen></iframe>)
+      end
+
+      it "Does return array with 1 image" do
+        expect(subject.size).to eq 1
+      end
+
+      it "Does return youtube url" do
+        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-1/0.jpg"
+      end
+    end
+
+    context "When has on youtube video with domais no-cookies" do
+
+      let(:html) do
+          %Q(<iframe width="560" height="315" src="https://www.youtube-nocookie.com/v/video-6" frameborder="0" allowfullscreen></iframe>)
+      end
+
+      it "Does return array with 1 image" do
+        expect(subject.size).to eq 1
+      end
+
+      it "Does return youtube url" do
+        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-6/0.jpg"
+      end
+    end
     
     context "When many youtube video" do
 
@@ -44,15 +74,18 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
           <iframe width="560" height="315" src="https://www.youtube.com/embed/video1" frameborder="0" allowfullscreen></iframe>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/video2" frameborder="0" allowfullscreen></iframe>
           <iframe width="560" height="315" src="https://www.youtube.com/embed/video3" frameborder="0" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/video-4" frameborder="0" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/v/video-5" frameborder="0" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/v/video-6" frameborder="0" allowfullscreen></iframe>
         )
       end
 
-      it "Does return array with 4 image" do
-        expect(subject.size).to eq 4
+      it "Does return array with 7 images" do
+        expect(subject.size).to eq 7
       end
 
       it "Does return youtube urls" do
-        expect(subject.map{ |video| video[:url] }).to include "http://img.youtube.com/vi/video0/0.jpg",  "http://img.youtube.com/vi/video1/0.jpg",  "http://img.youtube.com/vi/video2/0.jpg", "http://img.youtube.com/vi/video3/0.jpg"
+        expect(subject.map{ |video| video[:url] }).to include "http://img.youtube.com/vi/video0/0.jpg",  "http://img.youtube.com/vi/video1/0.jpg",  "http://img.youtube.com/vi/video2/0.jpg", "http://img.youtube.com/vi/video3/0.jpg", "http://img.youtube.com/vi/video-4/0.jpg", "http://img.youtube.com/vi/video-4/0.jpg", "http://img.youtube.com/vi/video-6/0.jpg"
       end
     end
   end
