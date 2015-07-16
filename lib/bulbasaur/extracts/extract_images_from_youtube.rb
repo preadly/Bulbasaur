@@ -13,8 +13,7 @@ module Bulbasaur
       images = Array.new
       @html.scan(EXTRACT_URL_PATTERN).each do |video|
         vid = get_vid(video)
-        url_image = image_url_for(vid)
-        images << { url: url_image }
+        images << { url: image_url(vid), url_fallback: image_url_fallback(vid) }
       end
       images
     end
@@ -25,8 +24,13 @@ module Bulbasaur
       EXTRACT_VID_PATTERN.match(video)[:vid]
     end
 
-    def image_url_for(vid)
+    def image_url(vid)
+      "http://img.youtube.com/vi/#{vid}/maxresdefault.jpg"
+    end
+    
+    def image_url_fallback(vid)
       "http://img.youtube.com/vi/#{vid}/0.jpg"
     end
+
   end
 end

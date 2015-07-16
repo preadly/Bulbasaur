@@ -30,7 +30,11 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
       end
 
       it "Does return youtube url" do
-        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/123idfake321/0.jpg"
+        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/123idfake321/maxresdefault.jpg"
+      end
+      
+      it "Does return youtube url fallback" do
+        expect(subject.first[:url_fallback]).to eq "http://img.youtube.com/vi/123idfake321/0.jpg"
       end
     end
 
@@ -45,7 +49,11 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
       end
 
       it "Does return youtube url" do
-        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-1/0.jpg"
+        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-1/maxresdefault.jpg"
+      end
+      
+      it "Does return youtube url fallback" do
+        expect(subject.first[:url_fallback]).to eq "http://img.youtube.com/vi/video-1/0.jpg"
       end
     end
 
@@ -60,7 +68,11 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
       end
 
       it "Does return youtube url" do
-        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-6/0.jpg"
+        expect(subject.first[:url]).to eq "http://img.youtube.com/vi/video-6/maxresdefault.jpg"
+      end
+      
+      it "Does return youtube url fallback" do
+        expect(subject.first[:url_fallback]).to eq "http://img.youtube.com/vi/video-6/0.jpg"
       end
     end
     
@@ -85,7 +97,25 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
       end
 
       it "Does return youtube urls" do
-        expect(subject.map{ |video| video[:url] }).to include "http://img.youtube.com/vi/video0/0.jpg",  "http://img.youtube.com/vi/video1/0.jpg",  "http://img.youtube.com/vi/video2/0.jpg", "http://img.youtube.com/vi/video3/0.jpg", "http://img.youtube.com/vi/video-4/0.jpg", "http://img.youtube.com/vi/video-4/0.jpg", "http://img.youtube.com/vi/video-6/0.jpg"
+        expect(subject.map{ |video| video[:url] }).to include(
+          "http://img.youtube.com/vi/video0/maxresdefault.jpg",  
+          "http://img.youtube.com/vi/video1/maxresdefault.jpg",  
+          "http://img.youtube.com/vi/video2/maxresdefault.jpg", 
+          "http://img.youtube.com/vi/video3/maxresdefault.jpg", 
+          "http://img.youtube.com/vi/video-4/maxresdefault.jpg", 
+          "http://img.youtube.com/vi/video-4/maxresdefault.jpg", 
+          "http://img.youtube.com/vi/video-6/maxresdefault.jpg")
+      end
+      
+      it "Does return youtube urls fallback" do
+        expect(subject.map{ |video| video[:url_fallback] }).to include(
+          "http://img.youtube.com/vi/video0/0.jpg",  
+          "http://img.youtube.com/vi/video1/0.jpg",  
+          "http://img.youtube.com/vi/video2/0.jpg", 
+          "http://img.youtube.com/vi/video3/0.jpg", 
+          "http://img.youtube.com/vi/video-4/0.jpg", 
+          "http://img.youtube.com/vi/video-4/0.jpg", 
+          "http://img.youtube.com/vi/video-6/0.jpg")
       end
     end
   end
