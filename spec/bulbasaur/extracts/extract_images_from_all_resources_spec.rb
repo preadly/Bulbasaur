@@ -5,6 +5,10 @@ RSpec.describe Bulbasaur::ExtractImagesFromAllResources do
   subject do
     described_class.new(html).call
   end
+  
+  before do
+    stub_request(:get, /\.youtube\.com/).to_return(status: 200)
+  end
 
   describe "#call" do
     

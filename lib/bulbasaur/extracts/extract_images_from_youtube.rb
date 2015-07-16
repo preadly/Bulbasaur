@@ -1,7 +1,7 @@
 module Bulbasaur
 
   class ExtractImagesFromYoutube
-  
+
     EXTRACT_URL_PATTERN = /www\.youtube(?:-nocookie)?\.com\/(?:v|embed)\/[a-zA-Z0-9-]+/i
     EXTRACT_VID_PATTERN = /(?<=v|embed)\/(?<vid>[a-zA-Z0-9-]+)/i
 
@@ -13,7 +13,7 @@ module Bulbasaur
       images = Array.new
       @html.scan(EXTRACT_URL_PATTERN).each do |video|
         vid = get_vid(video)
-        images << { url: image_url(vid), url_fallback: image_url_fallback(vid) }
+        images << { url: image_url(vid) }
       end
       images
     end
@@ -25,9 +25,20 @@ module Bulbasaur
     end
 
     def image_url(vid)
+      image = image_url_max_resolution(vid)
+      response = Net::HTTP.get_response(URI(image))
+      case response
+      when Net::HTTPSuccess then
+        return image_url_max_resolution(vid)
+      else
+        return image_url_fallback(vid)
+      end
+    end
+
+    def image_url_max_resolution(vid)
       "http://img.youtube.com/vi/#{vid}/maxresdefault.jpg"
     end
-    
+
     def image_url_fallback(vid)
       "http://img.youtube.com/vi/#{vid}/0.jpg"
     end
