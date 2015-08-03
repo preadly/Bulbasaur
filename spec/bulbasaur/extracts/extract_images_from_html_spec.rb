@@ -67,6 +67,9 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
           <a href="http://somewhere.to/get/the_original_image.jpg">
             Click here to see the original image.
           </a>
+          <a href="http://somewhere.to/get/the_original_image.jpg?width=400&height=400">
+            Click here to see the original image.
+          </a>
           <a href="http://somewhere.to/go/to/another_page.html">
             Click here to go to another page.
           </a>
@@ -74,10 +77,14 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
       end
 
       it 'Does return an image array with 1 item' do
-        expect(subject.size).to eq 1
+        expect(subject.size).to eq 2
       end
 
-      it 'Does return the image URL' do
+      it 'Does return the image URL with parameters' do
+        expect(subject.last[:url]).to eq 'http://somewhere.to/get/the_original_image.jpg?width=400&height=400'
+      end
+
+      it 'Does return the image URL without parameters' do
         expect(subject.first[:url]).to eq 'http://somewhere.to/get/the_original_image.jpg'
       end
 
@@ -87,6 +94,7 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
 
       it 'Does not include links other than for images' do
         expect(subject).to include Hash(url: 'http://somewhere.to/get/the_original_image.jpg', alt: nil)
+        expect(subject).to include Hash(url: 'http://somewhere.to/get/the_original_image.jpg?width=400&height=400', alt: nil)
         expect(subject).not_to include Hash(url: 'http://somewhere.to/go/to/another_page.html', alt: nil)
       end
     end
