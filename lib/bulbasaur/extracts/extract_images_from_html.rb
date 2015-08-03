@@ -3,7 +3,7 @@ module Bulbasaur
   class ExtractImagesFromHTML
     
     CSS_IMPORT_URL_REGEX = /(?<=url\()['"]?.+?['"]?.+?(?=\))/
-    IMG_CANDIDATE_URL_REGEX = /https?:\/\/\S*\.(?:png|jpg|jpeg)(?!\.\S)/i
+    IMG_CANDIDATE_URL_REGEX = /https?:\/\/\S*\.(?:png|jpg|jpeg|gif)(?!\.\S)/i
 
     def initialize(html)
       @html = html
@@ -13,6 +13,7 @@ module Bulbasaur
       images = Array.new
       images = images + extract_images_by_tag_image
       images = images + extract_images_by_tag_style
+      images = images + extract_images_by_link
       images
     end
 
@@ -31,6 +32,15 @@ module Bulbasaur
     def extract_images_by_tag_style
       images = Array.new
       @html.scan(CSS_IMPORT_URL_REGEX).each do |url|
+        images << create_struct(url)
+      end
+      images
+    end
+
+    def extract_images_by_link
+      images = Array.new
+      Nokogiri::HTML(@html).xpath('//a').each do |link|
+        url = link.xpath('@href').text
         images << create_struct(url)
       end
       images
