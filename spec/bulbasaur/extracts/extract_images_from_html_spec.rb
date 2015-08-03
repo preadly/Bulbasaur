@@ -67,6 +67,9 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
           <a href="http://somewhere.to/get/the_original_image.jpg">
             Click here to see the original image.
           </a>
+          <a href="http://somewhere.to/go/to/another_page.html">
+            Click here to go to another page.
+          </a>
         </p>'
       end
 
@@ -80,6 +83,11 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
 
       it 'Does return the image alt' do
         expect(subject.first[:alt]).to be_nil
+      end
+
+      it 'Does not include links other than for images' do
+        expect(subject).to include Hash(url: 'http://somewhere.to/get/the_original_image.jpg', alt: nil)
+        expect(subject).not_to include Hash(url: 'http://somewhere.to/go/to/another_page.html', alt: nil)
       end
     end
     

@@ -41,7 +41,7 @@ module Bulbasaur
       images = Array.new
       Nokogiri::HTML(@html).xpath('//a').each do |link|
         url = link.xpath('@href').text
-        images << create_struct(url)
+        images << create_struct(url) if url =~ IMG_CANDIDATE_URL_REGEX
       end
       images
     end
