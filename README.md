@@ -1,5 +1,5 @@
 # Bulbasaur
-Bulbasaur was created with the objective of sharing components used by the Preadly crawler. It is a module for crawler operations, which uses the XML parser Nokogiri. Bulbasaur helps to simplify those HTML operations.
+Bulbasaur was created with the objective of sharing components used by the Preadly crawler. It is a module for crawler operations, which uses the XML parser Nokogiri. Bulbasaur helps to simplify those HTML operations. This is one of contributions of [pread.ly](http://pread.ly) to the open source community.
 
 [![Build Status](https://travis-ci.org/preadly/Bulbasaur.svg?branch=master)](https://travis-ci.org/preadly/Bulbasaur)
 [![Code Climate](https://codeclimate.com/github/preadly/Bulbasaur/badges/gpa.svg)](https://codeclimate.com/github/preadly/Bulbasaur)
