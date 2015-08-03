@@ -60,6 +60,36 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
         expect(subject.first[:alt]).to be_nil
       end
     end
+
+    context 'When sending HTML with a link pointing to an image' do
+      let(:html) do
+        '<p>
+          <a href="http://somewhere.to/get/the_original_image.jpg">
+            Click here to see the original image.
+          </a>
+          <a href="http://somewhere.to/go/to/another_page.html">
+            Click here to go to another page.
+          </a>
+        </p>'
+      end
+
+      it 'Does return an image array with 1 item' do
+        expect(subject.size).to eq 1
+      end
+
+      it 'Does return the image URL' do
+        expect(subject.first[:url]).to eq 'http://somewhere.to/get/the_original_image.jpg'
+      end
+
+      it 'Does return the image alt' do
+        expect(subject.first[:alt]).to be_nil
+      end
+
+      it 'Does not include links other than for images' do
+        expect(subject).to include Hash(url: 'http://somewhere.to/get/the_original_image.jpg', alt: nil)
+        expect(subject).not_to include Hash(url: 'http://somewhere.to/go/to/another_page.html', alt: nil)
+      end
+    end
     
     context "When send html with many images" do
       
