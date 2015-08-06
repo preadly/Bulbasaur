@@ -70,22 +70,39 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
           <a href="http://somewhere.to/get/the_original_image.jpg?width=400&height=400">
             Click here to see the original image.
           </a>
+          <a href="http://somewhere.to/get/the_original_image.jpg~original">
+            Click here to see the original image.
+          </a>
+          <a href="http://somewhere.to/get/The_Original_Image%C3%A7a_3.JPG">
+            Click here to see the original image.
+          </a>
           <a href="http://somewhere.to/go/to/another_page.html">
             Click here to go to another page.
+          </a>
+          <a href="http://somewhere.to/get/the_original_image.jpg.exe">
+            Click here to get a virus.
           </a>
         </p>'
       end
 
-      it 'Does return an image array with 1 item' do
-        expect(subject.size).to eq 2
+      it 'Does return an image array with 4 items' do
+        expect(subject.size).to eq 4
       end
 
       it 'Does return the image URL with parameters' do
-        expect(subject.last[:url]).to eq 'http://somewhere.to/get/the_original_image.jpg?width=400&height=400'
+        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg?width=400&height=400', alt: nil
       end
 
       it 'Does return the image URL without parameters' do
-        expect(subject.first[:url]).to eq 'http://somewhere.to/get/the_original_image.jpg'
+        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg', alt: nil
+      end
+
+      it 'Does return the image URL with tilde parameters' do
+        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg~original', alt: nil
+      end
+
+      it 'Does return the image URL with upcased and special characters' do
+        expect(subject).to include Hash url: 'http://somewhere.to/get/The_Original_Image%C3%A7a_3.JPG', alt: nil
       end
 
       it 'Does return the image alt' do
@@ -93,9 +110,8 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
       end
 
       it 'Does not include links other than for images' do
-        expect(subject).to include Hash(url: 'http://somewhere.to/get/the_original_image.jpg', alt: nil)
-        expect(subject).to include Hash(url: 'http://somewhere.to/get/the_original_image.jpg?width=400&height=400', alt: nil)
-        expect(subject).not_to include Hash(url: 'http://somewhere.to/go/to/another_page.html', alt: nil)
+        expect(subject).not_to include Hash url: 'http://somewhere.to/get/the_original_image.jpg.exe', alt: nil
+        expect(subject).not_to include Hash url: 'http://somewhere.to/go/to/another_page.html', alt: nil
       end
     end
     

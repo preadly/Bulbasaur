@@ -3,7 +3,7 @@ module Bulbasaur
   class ExtractImagesFromHTML
     
     CSS_IMPORT_URL_REGEX = /(?<=url\()['"]?.+?['"]?.+?(?=\))/
-    IMG_CANDIDATE_URL_REGEX = /https?:\/\/\S*\.(?:png|jpg|jpeg|gif)(?!\.\S)/i
+    IMG_CANDIDATE_URL_REGEX = /https?:\/\/\S*\.(?:png|jpg|jpeg|gif)[(?:|~\w)]*(?!\.\S)/i
 
     def initialize(html)
       @html = html
