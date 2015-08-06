@@ -45,6 +45,14 @@ RSpec.describe Bulbasaur::NormalizeURL do
       end
     end
 
+    context 'When using an encoded URL' do
+      let(:context_url) { 'http://www.test.com/Hello%C3%A7a_9.jpg~original' }
+
+      it 'returns the normalized URL' do
+        expect(subject).to eq 'http://www.test.com/Hello%C3%A7a_9.jpg~original'
+      end
+    end
+
     context "When use url not normalized with slash on base: hello.jpg" do
       
       let(:base_url) do
