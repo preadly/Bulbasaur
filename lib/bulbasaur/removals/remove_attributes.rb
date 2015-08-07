@@ -7,7 +7,7 @@ module Bulbasaur
 
     def call
       parsed_html = Nokogiri::HTML::DocumentFragment.parse @html
-      @banned_attrs.each { |attr| parsed_html.xpath('.//@style').remove }
+      @banned_attrs.each { |attr| parsed_html.xpath(".//@#{attr}").remove }
       parsed_html.to_s
     end
   end
