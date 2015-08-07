@@ -17,7 +17,7 @@ module Bulbasaur
 
     def check_for_attrs(element)
       @target_attrs.each do |attr|
-        if element.xpath "@#{attr}"
+        if element.at "@#{attr}"
           adjust element, "@#{attr}"
           break
         end
