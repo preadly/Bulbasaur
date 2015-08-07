@@ -2,8 +2,8 @@ module Bulbasaur
 
   module Version
     MAJOR = 0
-    MINOR = 6
-    PATCH = 1
+    MINOR = 7
+    PATCH = 0
     STRING = "#{MAJOR}.#{MINOR}.#{PATCH}"
   end
   
