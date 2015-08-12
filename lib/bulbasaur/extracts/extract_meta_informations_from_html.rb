@@ -10,9 +10,7 @@ module Bulbasaur
       for_each_meta_information do |meta_information|
         name = name_of meta_information
         value = value_of meta_information
-        if valid? meta_information, name, value
-          meta_informations << { name: meta_information[name], value: meta_information[value] }
-        end
+        meta_informations << { name: name, value: value } unless name.nil? || value.nil?
       end
       meta_informations
     end
@@ -21,27 +19,24 @@ module Bulbasaur
 
     def for_each_meta_information(&block)
       if @html
-        Nokogiri::HTML(@html).xpath('//meta').map(&:to_h).each &block
-        Nokogiri::HTML(@html).xpath('//link').map(&:to_h).each &block
+        Nokogiri::HTML(@html).xpath('//meta').each &block
+        Nokogiri::HTML(@html).xpath('//link').each &block
       end
     end
 
     def name_of(meta_information)
-      catch_key meta_information, /name|property|rel/i
+      include_attribute? %w(name property rel), meta_information
     end
 
     def value_of(meta_information)
-      catch_key meta_information, /value|content|href/i
+      include_attribute? %w(value content href), meta_information
     end
 
-    def valid?(meta_information, name, value)
-      !meta_information[name].empty? && !meta_information[value].empty?
-    end
-
-    def catch_key(hash, regex)
-      key_name = nil
-      hash.select { |key| key_name = key if key =~ regex }
-      key_name
+    def include_attribute?(attributes, tag)
+      attributes.each do |attr|
+        return tag.attribute(attr).to_s if tag.attributes.include?(attr)
+      end
+      nil
     end
   end
 end
