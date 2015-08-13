@@ -1,9 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe Bulbasaur::RemoveAttributes do
-  subject { described_class.new(html, banned_attrs).call }
+  
+  subject do 
+    described_class.new(html, banned_attrs).call 
+  end
 
   describe '#call' do
+    
     let(:html) do
       %[
         <style>
@@ -18,7 +22,10 @@ RSpec.describe Bulbasaur::RemoveAttributes do
     end
 
     context 'when there are no banned attributes' do
-      let(:banned_attrs) { [] }
+      
+      let(:banned_attrs) do
+        [] 
+      end
 
       it 'returns the HTML code as it was before' do
         expect(subject).to eq html
@@ -26,7 +33,10 @@ RSpec.describe Bulbasaur::RemoveAttributes do
     end
 
     context 'when there are banned attributes' do
-      let(:banned_attrs) { %w(style) }
+      
+      let(:banned_attrs) do
+        %w(style)
+      end
 
       it 'returns the HTML code without the banned attributes' do
         expect(subject.strip.gsub(/\n/, '').squeeze ' ').to eq %[
@@ -42,4 +52,5 @@ RSpec.describe Bulbasaur::RemoveAttributes do
       end
     end
   end
+
 end
