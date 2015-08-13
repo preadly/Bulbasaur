@@ -44,7 +44,7 @@ RSpec.describe Bulbasaur::NormalizeImageSources do
       end
 
       it "Returns the HTML code with the specified image tags adjusted" do
-        expect(subject).to eq html_parsed
+        expect(subject.delete(" ")).to eq html_parsed.delete(" ")
       end
     end
 
@@ -64,7 +64,7 @@ RSpec.describe Bulbasaur::NormalizeImageSources do
       end
 
       it "Returns the HTML code with the involved image tags fixed with domain and path" do
-        expect(subject).to eq html_parsed
+        expect(subject.delete(" ")).to eq html_parsed.delete(" ")
       end
     end
   end
