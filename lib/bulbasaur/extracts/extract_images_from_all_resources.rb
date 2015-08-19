@@ -11,6 +11,7 @@ module Bulbasaur
       images = images + extract_images_html(@html)
       images = images + extract_images_youtube(@html)
       images = images + extract_images_vimeo(@html)
+      images = images + extract_images_meta(@html)
       images
     end
 
@@ -35,6 +36,14 @@ module Bulbasaur
     def extract_images_vimeo(html)
       begin
         Bulbasaur::ExtractImagesFromVimeo.new(html).call
+      rescue Exception => e
+        []
+      end
+    end
+
+    def extract_images_meta(html)
+      begin
+        Bulbasaur::ExtractImagesFromMeta.new(html).call
       rescue Exception => e
         []
       end
