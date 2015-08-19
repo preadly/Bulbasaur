@@ -37,6 +37,10 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
       it "Does return the image alt" do
         expect(subject.first[:alt]).to eq "image alt test"
       end
+
+      it 'Does return the image source' do
+        expect(subject.first[:source]).to eq 'img'
+      end
     end
     
     context "When send html with a image style inline" do
@@ -58,6 +62,10 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
 
       it "Does return the image alt" do
         expect(subject.first[:alt]).to be_nil
+      end
+
+      it 'Does return the image source' do
+        expect(subject.first[:source]).to eq 'style'
       end
     end
 
@@ -90,23 +98,27 @@ RSpec.describe Bulbasaur::ExtractImagesFromHTML do
       end
 
       it 'Does return the image URL with parameters' do
-        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg?width=400&height=400', alt: nil
+        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg?width=400&height=400', alt: nil, source: 'link'
       end
 
       it 'Does return the image URL without parameters' do
-        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg', alt: nil
+        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg', alt: nil, source: 'link'
       end
 
       it 'Does return the image URL with tilde parameters' do
-        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg~original', alt: nil
+        expect(subject).to include Hash url: 'http://somewhere.to/get/the_original_image.jpg~original', alt: nil, source: 'link'
       end
 
       it 'Does return the image URL with upcased and special characters' do
-        expect(subject).to include Hash url: 'http://somewhere.to/get/The_Original_Image%C3%A7a_3.JPG', alt: nil
+        expect(subject).to include Hash url: 'http://somewhere.to/get/The_Original_Image%C3%A7a_3.JPG', alt: nil, source: 'link'
       end
 
       it 'Does return the image alt' do
         expect(subject.first[:alt]).to be_nil
+      end
+
+      it 'Does return the image source' do
+        expect(subject.first[:source]).to eq 'link'
       end
 
       it 'Does not include links other than for images' do

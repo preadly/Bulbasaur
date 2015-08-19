@@ -31,6 +31,8 @@ RSpec.describe Bulbasaur::ExtractImagesFromVimeo do
 
       it "Does return vime url" do
         expect(subject.first[:url]).to eq "https://i.vimeocdn.com/video/123456789_640.webp"
+        expect(subject.first[:source]).to eq 'vimeo'
+        expect(subject.first[:video_url]).to eq 'player.vimeo.com/video/123456789'
       end
     end
     

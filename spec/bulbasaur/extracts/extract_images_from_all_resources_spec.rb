@@ -14,6 +14,7 @@ RSpec.describe Bulbasaur::ExtractImagesFromAllResources do
     
     let(:html) do
         %Q(
+          <meta property="og:image" content="http://somewhere.to/get/an_image.jpg" />
           <p>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/video0" frameborder="0" allowfullscreen></iframe>
           </p>
@@ -39,8 +40,8 @@ RSpec.describe Bulbasaur::ExtractImagesFromAllResources do
         )
     end
 
-    it "Does return 15 itens" do
-      expect(subject.size).to eq 15
+    it "Does return 16 items" do
+      expect(subject.size).to eq 16
     end
   end
 end

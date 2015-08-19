@@ -35,6 +35,8 @@ RSpec.describe Bulbasaur::ExtractImagesFromYoutube do
 
       it "Does return youtube url" do
         expect(subject.first[:url]).to eq "http://img.youtube.com/vi/123idfake321/maxresdefault.jpg"
+        expect(subject.first[:source]).to eq 'youtube'
+        expect(subject.first[:video_url]).to eq 'www.youtube.com/embed/123idfake321'
       end
     end
 
