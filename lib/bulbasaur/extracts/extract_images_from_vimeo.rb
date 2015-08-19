@@ -16,7 +16,7 @@ module Bulbasaur
       @html.scan(EXTRACT_URL_PATTERN).each do |video|
         vid = get_vid(video)
         url_image = image_url_for(vid)
-        images << { url: url_image }
+        images << { url: url_image, video_url: video, source: 'vimeo' }
       end
       images
     end
