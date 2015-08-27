@@ -28,13 +28,17 @@ module Bulbasaur
 
     def adjust(element, attr)
       element.set_attribute 'src', lazy_load_url(element, element.xpath(attr).text)
-      element.xpath(attr).remove
+      remove_target_attrs_from element
     end
 
     def lazy_load_url(element, text)
       text_match = text.match(DOMAIN_REGEX).to_s
       element_match = element.css('@src').text.match(DOMAIN_REGEX).to_s
-      (text_match == element_match) ? text : "#{element_match}/#{text}"
+      element_match.empty? || text_match == element_match ? text : "#{element_match}/#{text}"
+    end
+
+    def remove_target_attrs_from(element)
+      @target_attrs.each { |attr| element.xpath("@#{attr}").remove }
     end
   end
 end
