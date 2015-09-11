@@ -5,7 +5,7 @@ RSpec.describe Bulbasaur::NormalizeURL do
   subject do
     described_class.new(base_url, context_url).call
   end
-      
+
   let(:base_url) do
     "http://pread.ly"
   end
@@ -15,16 +15,16 @@ RSpec.describe Bulbasaur::NormalizeURL do
   end
 
   describe "#call" do
-    
+
     context "When use url normalized url: http://www.test.com/hello.jpg" do
-      
+
       it "Does return url normalized: http://www.test.com/hello.jpg" do
         expect(subject).to eq "http://www.test.com/hello.jpg"
       end
     end
 
     context "When use url unnormalized url: test.jpg" do
-     
+
       let(:context_url) do
         "test.jpg"
       end
@@ -35,7 +35,7 @@ RSpec.describe Bulbasaur::NormalizeURL do
     end
 
     context "When use url https normalized: https://www.test.com/hello.jpg" do
-      
+
       let(:context_url) do
         "https://www.test.com/hello.jpg"
       end
@@ -54,7 +54,7 @@ RSpec.describe Bulbasaur::NormalizeURL do
     end
 
     context "When use url not normalized with slash on base: hello.jpg" do
-      
+
       let(:base_url) do
         "https://www.test.com/"
       end
@@ -68,8 +68,36 @@ RSpec.describe Bulbasaur::NormalizeURL do
       end
     end
 
+    context "When base_url contains path" do
+      let!(:base_url) do
+        "http://pread.ly/other-path/"
+      end
+
+      let!(:context_url) do
+        "test.jpg"
+      end
+
+      it "Does return url normalized: http://pread.ly/test.jpg" do
+        expect(subject).to eq "http://pread.ly/test.jpg"
+      end
+    end
+
+    context "When base_url contains query string" do
+      let!(:base_url) do
+        "http://pread.ly/?page=1"
+      end
+
+      let!(:context_url) do
+        "test.jpg"
+      end
+
+      it "Does return url normalized: http://pread.ly/test.jpg" do
+        expect(subject).to eq "http://pread.ly/test.jpg"
+      end
+    end
+
     context "When base url not valid" do
-    
+
       let(:base_url) do
         "test/httml"
       end

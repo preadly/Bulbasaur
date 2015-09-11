@@ -1,7 +1,7 @@
 module Bulbasaur
   class NormalizeURL
     def initialize(base_url, context_url)
-      @base_url = base_url
+      @base_url = clean_url(base_url)
       @context_url = context_url
     end
 
@@ -10,6 +10,14 @@ module Bulbasaur
       URI::encode URI::decode url
     rescue
       raise ArgumentError, "Unable to normalize URL. Params: [base_url: #{@base_url}, context_url: #{@context_url}]."
+    end
+
+    private
+    def clean_url(url)
+      uri = URI(url)
+      uri.path = ''
+      uri.query = ''
+      uri.to_s
     end
   end
 end
