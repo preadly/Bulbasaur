@@ -1,5 +1,6 @@
 module Bulbasaur
   class NormalizeImageSources
+    
     def initialize(html, target_attrs)
       @html = html
       @target_attrs = target_attrs
