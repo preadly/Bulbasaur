@@ -11,6 +11,7 @@ require "bulbasaur/removals/remove_attributes"
 require "bulbasaur/replaces/replace_by_tag_image"
 require "bulbasaur/utils/normalize_url"
 require "bulbasaur/utils/normalize_image_sources"
+require "bulbasaur/utils/normalize_image_src_set"
 require "bulbasaur/version"
 
 

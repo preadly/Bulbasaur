@@ -9,7 +9,7 @@ module Bulbasaur
     def call
       parsed_html = Nokogiri::HTML::DocumentFragment.parse @html
       parsed_html.css('img').each do |element|
-        check_for_attrs element
+        check_for_attrs(element)
       end
       parsed_html.to_s
     end
@@ -26,8 +26,8 @@ module Bulbasaur
     end
 
     def adjust(element, attr)
-      element.set_attribute 'src', element.xpath(attr).text
-      remove_target_attrs_from element
+      element.set_attribute('src', element.xpath(attr).text)
+      remove_target_attrs_from(element)
     end
 
     def remove_target_attrs_from(element)
